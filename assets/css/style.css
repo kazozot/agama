@@ -275,7 +275,7 @@ a:hover {
     color: var(--text-color);
 }
 .ads-placeholder::before {
-    content: 'Tempat Iklan';
+    content: '';
 }
 
 /* Aturan Responsif untuk Smartphone */
@@ -365,7 +365,7 @@ a:hover {
     color: var(--text-color);
 }
 .ads-placeholder::before {
-    content: 'Tempat Iklan';
+    content: '';
 }
 
 /* Aturan Responsif untuk Smartphone */
