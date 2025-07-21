@@ -20,39 +20,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fungsi untuk mode terang/gelap
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
+        // Terapkan tema dari localStorage saat memuat
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.body.classList.toggle('dark-mode', currentTheme === 'dark');
+    
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-mode');
             let theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
+            // Muat ulang Giscus dengan tema baru
+            const giscusContainer = document.getElementById('giscus-container');
+            if(giscusContainer && giscusContainer.querySelector('iframe.giscus-frame')) {
+                const giscusFrame = giscusContainer.querySelector('iframe.giscus-frame');
+                giscusFrame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
+            }
         });
     }
 
-    // LOGIKA TOMBOL DOWNLOAD (DIPERBARUI)
+    // LOGIKA TOMBOL DOWNLOAD
     const downloadBtn = document.getElementById('download-book-btn');
     if (downloadBtn) {
         let hasClickedOnce = false;
-
-        // PENTING: Ganti dengan link file e-book Anda yang sebenarnya.
         const realDownloadLink = 'assets/books/lubabun_nuqul_fi_asbabin_nuzul.pdf';
-
         downloadBtn.addEventListener('click', () => {
             if (!hasClickedOnce) {
-                // --- AKSI PADA KLIK PERTAMA ---
-                window.open('tos.html', '_blank'); //
+                window.open('tos.html', '_blank');
                 downloadBtn.textContent = 'Klik Lagi untuk Konfirmasi & Download';
                 hasClickedOnce = true;
             } else {
-                // --- AKSI PADA KLIK KEDUA ---
                 const link = document.createElement('a');
                 link.href = realDownloadLink;
                 link.download = 'Kitab_Asbabun_Nuzul_Imam_As-Suyuthi.pdf';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-
                 setTimeout(() => {
                     downloadBtn.textContent = 'Download Kitab Asbabun Nuzul';
                     hasClickedOnce = false;
@@ -69,23 +70,51 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.classList.add('surat-card');
             if (dataAsbabunNuzul[nomorSurat]) {
-                card.innerHTML = `
-                    <a href="surat_detail.html?surat=${nomorSurat}">
-                        <h3>${nomorSurat}. ${nama}</h3>
-                        <p>Terdapat riwayat Asbabun Nuzul</p>
-                    </a>
-                `;
+                card.innerHTML = `<a href="surat_detail.html?surat=${nomorSurat}"><h3>${nomorSurat}. ${nama}</h3><p>Terdapat riwayat Asbabun Nuzul</p></a>`;
             } else {
                 card.classList.add('no-riwayat');
-                card.innerHTML = `
-                    <h3>${nomorSurat}. ${nama}</h3>
-                    <p>Tidak ada riwayat</p>
-                `;
+                card.innerHTML = `<h3>${nomorSurat}. ${nama}</h3><p>Tidak ada riwayat</p>`;
             }
             suratListContainer.appendChild(card);
         });
     }
-    
+
+    // === FUNGSI BARU UNTUK MEMUAT KOMENTAR GISCUS ===
+    function loadGiscus(term) {
+        const container = document.getElementById('giscus-container');
+        if (!container) return;
+        
+        // Hapus Giscus instance lama jika ada
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        // --- GANTI DATA DI BAWAH INI DENGAN DATA REPO ANDA ---
+        script.setAttribute('data-repo', 'kazozot/agama'); 
+        script.setAttribute('data-repo-id', 'R_kgDOPQOEKA');
+        script.setAttribute('data-category', 'General');
+        script.setAttribute('data-category-id', 'DIC_kwDOPQOEKM4CtPgm');
+        // ----------------------------------------------------
+        script.setAttribute('data-mapping', 'specific');
+        script.setAttribute('data-term', term); // Judul unik untuk setiap utas diskusi
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1'); // Mengaktifkan reaksi/like
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'bottom'); // Form komentar di bawah
+        
+        // Mengatur tema Giscus sesuai tema website
+        const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        script.setAttribute('data-theme', currentTheme);
+
+        script.setAttribute('data-lang', 'id'); // Bahasa Giscus
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        container.appendChild(script);
+    }
+
     // Fungsi untuk halaman detail surat (surat_detail.html)
     const postContentContainer = document.getElementById('post-content');
     if (postContentContainer) {
@@ -118,8 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const detailAyat = dataSurat.ayat[nomorAyatKey];
                 if (!detailAyat) return;
 
-                document.getElementById('judul-surat-ayat').textContent = `Surat ${namaSurat} : Ayat ${nomorAyatKey}`;
-                document.title = `Asbabun Nuzul Surat ${namaSurat} Ayat ${nomorAyatKey}`;
+                const judulHalaman = `Surat ${namaSurat} : Ayat ${nomorAyatKey}`;
+                document.getElementById('judul-surat-ayat').textContent = judulHalaman;
+                document.title = `Asbabun Nuzul ${judulHalaman}`;
                 
                 const teksAyatHtml = detailAyat.teks_ayat.map(item => `<p class="ayat-arabic-item">${item.teks} (${item.nomor_ayat})</p>`).join('');
                 document.getElementById('teks-ayat').innerHTML = teksAyatHtml;
@@ -141,6 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         link.classList.add('active');
                     }
                 });
+                
+                // === PANGGIL FUNGSI GISCUS SETIAP KALI AYAT BERGANTI ===
+                const discussionTerm = `Komentar: ${judulHalaman}`; // Ini akan menjadi judul unik untuk setiap diskusi
+                loadGiscus(discussionTerm);
             };
             
             const handleStateChange = () => {
