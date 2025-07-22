@@ -1,46 +1,25 @@
-// --- KONTROL UTAMA IKLAN ---
-// Ubah nilai di bawah ini ke `false` untuk mematikan semua iklan di situs.
-// Ubah ke `true` untuk mengaktifkan kembali.
-const tampilkanIklan = true;
-
-// --- Objek Konfigurasi Iklan Terpusat ---
-// Berisi semua detail yang dibutuhkan untuk setiap slot iklan.
-const konfigurasiIklan = {
-    'ads-header-top': {
-        key: '89dd05f056df7ba4a61cd242e26cb6af',
-        format: 'iframe',
-        height: 90,
-        width: 728,
-        params: {}
-    },
-    'ads-post-start': {
-        key: '89dd05f056df7ba4a61cd242e26cb6af',
-        format: 'iframe',
-        height: 90,
-        width: 728,
-        params: {}
-    },
-    'ads-post-middle': {
-        key: '89dd05f056df7ba4a61cd242e26cb6af',
-        format: 'iframe',
-        height: 90,
-        width: 728,
-        params: {}
-    },
-    'ads-post-end': {
-        profitableratecpm_key: '831375280a5eace22919c30d68041d89'
-    },
-    'ads-footer-top': {
-        key: '89dd05f056df7ba4a61cd242e26cb6af',
-        format: 'iframe',
-        height: 90,
-        width: 728,
-        params: {}
-    }
-};
-
-
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- PENGATURAN IKLAN ---
+    // Ubah nilai di bawah ini ke `false` untuk mematikan SEMUA iklan di situs.
+    // Ubah ke `true` untuk menyalakan kembali.
+    const ENABLE_ADS = true;
+
+    // Fungsi untuk mengelola visibilitas slot iklan
+    const manageAdVisibility = () => {
+        if (!ENABLE_ADS) {
+            const adSlots = ['ads-header-top', 'ads-footer-top', 'ads-post-start', 'ads-post-middle', 'ads-post-end'];
+            adSlots.forEach(slotId => {
+                const adContainer = document.getElementById(slotId);
+                if (adContainer) {
+                    adContainer.style.display = 'none';
+                }
+            });
+        }
+    };
+    
+    // Panggil fungsi untuk mengatur iklan saat halaman dimuat
+    manageAdVisibility();
 
     // --- Definisi Ikon SVG untuk Tema ---
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.73 12.73c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41zM18.36 5.64l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0zM7.05 18.36l-1.41-1.41c-.39-.39-.39 1.02 0-1.41s1.02-.39 1.41 0l1.41 1.41c.39.39.39 1.02 0 1.41s-1.03.39-1.41 0z"/></svg>`;
@@ -70,41 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = localStorage.getItem('theme') || 'light';
         applyTheme(currentTheme);
     }
-
-    // --- FUNGSI BARU UNTUK MEMUAT IKLAN SECARA DINAMIS ---
-    const muatIklan = () => {
-        if (!tampilkanIklan) {
-            console.log("Iklan dinonaktifkan.");
-            return;
-        }
-
-        for (const slotId in konfigurasiIklan) {
-            const container = document.getElementById(slotId);
-            if (container) {
-                const config = konfigurasiIklan[slotId];
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-
-                if (config.profitableratecpm_key) {
-                    // Logika untuk Profitableratecpm
-                    script.async = true;
-                    script.dataset.cfasync = false;
-                    script.src = `//pl27226036.profitableratecpm.com/${config.profitableratecpm_key}/invoke.js`;
-                    const div = document.createElement('div');
-                    div.id = `container-${config.profitableratecpm_key}`;
-                    container.appendChild(script);
-                    container.appendChild(div);
-                } else {
-                    // Logika untuk Highperformanceformat
-                    window.atOptions = config;
-                    script.src = `//www.highperformanceformat.com/${config.key}/invoke.js`;
-                    container.appendChild(script);
-                }
-            }
-        }
-    };
-    muatIklan();
-
 
     // --- LOGIKA TOMBOL DOWNLOAD GANDA ---
     const setupDownloadButton = (buttonId, realLink, downloadName) => {
@@ -136,10 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Placeholder untuk link download Ibnu Katsir
     setupDownloadButton('download-book-btn-katsir', 'assets/books/placeholder_tafsir_ibnu_katsir.pdf', 'Kitab_Tafsir_Ibnu_Katsir.pdf');
 
-
     const daftarNamaSurat = [ "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Taha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Asy-Syu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Yasin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Asy-Syura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jasiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Az-Zariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hasyr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddassir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Insyiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghasyiyah", "Al-Fajr", "Al-Balad", "Asy-Syams", "Al-Lail", "Ad-Duha", "Asy-Syarh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takasur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraisy", "Al-Ma'un", "Al-Kausar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
 
-    // --- Fungsi untuk halaman utama (index.html) (tidak diubah) ---
+    // --- Fungsi untuk halaman utama (index.html) ---
     const suratListContainer = document.getElementById('surat-list');
     if (suratListContainer) {
         daftarNamaSurat.forEach((nama, index) => {
@@ -156,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Fungsi untuk memuat komentar Giscus (tidak diubah) ---
+    // --- Fungsi untuk memuat komentar Giscus ---
     function loadGiscus(term) {
         const container = document.getElementById('giscus-container');
         if (!container) return;
@@ -182,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // --- Fungsi untuk halaman detail surat (surat_detail.html) ---
-    // --- DIMODIFIKASI SECARA SIGNIFIKAN ---
     const postContentContainer = document.getElementById('post-content');
     if (postContentContainer) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -211,14 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const detailAyat = dataSurat.ayat[nomorAyatKey];
                 if (!detailAyat) return;
 
-                // Tampilkan Teks dan Arti Ayat
                 document.getElementById('judul-surat-ayat').textContent = `Surat ${namaSurat} : Ayat ${nomorAyatKey}`;
                 document.title = `Asbabun Nuzul ${namaSurat} : Ayat ${nomorAyatKey}`;
                 document.querySelector('meta[name="description"]').setAttribute('content', `Sebab turunnya Surat ${namaSurat} ayat ${nomorAyatKey}.`);
                 document.getElementById('teks-ayat').innerHTML = detailAyat.teks_ayat.map(item => `<p class="ayat-arabic-item">${item.teks} (${item.nomor_ayat})</p>`).join('');
                 document.getElementById('arti-ayat').innerHTML = detailAyat.arti_ayat.map(item => `<p class="ayat-translation-item">(${item.nomor_ayat}) ${item.arti}</p>`).join('');
                 
-                // --- LOGIKA TAB RIWAYAT BARU ---
                 const tampilkanRiwayat = (namaPerawi) => {
                     const sebabNuzulContainer = document.getElementById('sebab-nuzul');
                     const riwayatData = detailAyat.sebab_nuzul[namaPerawi];
@@ -232,32 +172,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         sebabNuzulContainer.innerHTML = '<p>Riwayat tidak tersedia untuk perawi ini.</p>';
                     }
                     
-                    // Update tab aktif
                     document.querySelectorAll('.tab-link').forEach(tab => {
                         tab.classList.toggle('active', tab.dataset.riwayat === namaPerawi);
                     });
                 };
                 
-                // Atur tab mana yang terlihat
                 document.querySelectorAll('.tab-link').forEach(tab => {
                     const perawi = tab.dataset.riwayat;
                     const riwayatAda = detailAyat.sebab_nuzul && detailAyat.sebab_nuzul[perawi];
                     tab.style.display = riwayatAda ? '' : 'none';
                 });
 
-                // Tampilkan riwayat default (Imam As-Suyuthi)
                 tampilkanRiwayat('Imam Jalaluddin As-Suyuthi'); 
 
-                // Update link navigasi samping yang aktif
                 document.querySelectorAll('#ayat-list a').forEach(link => {
                     link.classList.toggle('active', link.dataset.nomorAyatKey === nomorAyatKey);
                 });
                 
-                // Panggil Giscus
                 loadGiscus(`Komentar: Surat ${namaSurat} Ayat ${nomorAyatKey}`);
             };
 
-            // Event listener untuk tab riwayat
             riwayatTabsContainer.addEventListener('click', e => {
                 if (e.target.classList.contains('tab-link')) {
                     const nomorAyatKey = window.location.hash.substring(1) || daftarAyat[0];
@@ -281,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Navigasi awal dan state handling
             const handleStateChange = () => {
                 let ayatKeyFromHash = window.location.hash.substring(1);
                 if (!daftarAyat.includes(ayatKeyFromHash)) {
