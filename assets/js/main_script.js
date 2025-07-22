@@ -1,7 +1,49 @@
+// --- KONTROL UTAMA IKLAN ---
+// Ubah nilai di bawah ini ke `false` untuk mematikan semua iklan di situs.
+// Ubah ke `true` untuk mengaktifkan kembali.
+const tampilkanIklan = true;
+
+// --- Objek Konfigurasi Iklan Terpusat ---
+// Berisi semua detail yang dibutuhkan untuk setiap slot iklan.
+const konfigurasiIklan = {
+    'ads-header-top': {
+        key: '89dd05f056df7ba4a61cd242e26cb6af',
+        format: 'iframe',
+        height: 90,
+        width: 728,
+        params: {}
+    },
+    'ads-post-start': {
+        key: '89dd05f056df7ba4a61cd242e26cb6af',
+        format: 'iframe',
+        height: 90,
+        width: 728,
+        params: {}
+    },
+    'ads-post-middle': {
+        key: '89dd05f056df7ba4a61cd242e26cb6af',
+        format: 'iframe',
+        height: 90,
+        width: 728,
+        params: {}
+    },
+    'ads-post-end': {
+        profitableratecpm_key: '831375280a5eace22919c30d68041d89'
+    },
+    'ads-footer-top': {
+        key: '89dd05f056df7ba4a61cd242e26cb6af',
+        format: 'iframe',
+        height: 90,
+        width: 728,
+        params: {}
+    }
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Definisi Ikon SVG untuk Tema ---
-    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.73 12.73c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41zM18.36 5.64l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0zM7.05 18.36l-1.41-1.41c-.39-.39-.39-1.02 0-1.41s1.02-.39 1.41 0l1.41 1.41c.39.39.39 1.02 0 1.41s-1.03.39-1.41 0z"/></svg>`;
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.73 12.73c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41zM18.36 5.64l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0zM7.05 18.36l-1.41-1.41c-.39-.39-.39 1.02 0-1.41s1.02-.39 1.41 0l1.41 1.41c.39.39.39 1.02 0 1.41s-1.03.39-1.41 0z"/></svg>`;
     const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.37 5.51c.46-1.12 1.48-2 2.63-2.02.53-.01 1.08.16 1.54.49l.07.05c.67.53 1.03 1.34 1.03 2.18 0 .42-.11.83-.32 1.2l-.05.08c-.73 1.39-2.34 2.19-3.93 1.95C9.22 9.94 8.5 8.84 8.5 7.5c0-.49.15-1 .46-1.45l.01-.04zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>`;
 
     // --- Fungsi untuk mode terang/gelap ---
@@ -28,6 +70,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = localStorage.getItem('theme') || 'light';
         applyTheme(currentTheme);
     }
+
+    // --- FUNGSI BARU UNTUK MEMUAT IKLAN SECARA DINAMIS ---
+    const muatIklan = () => {
+        if (!tampilkanIklan) {
+            console.log("Iklan dinonaktifkan.");
+            return;
+        }
+
+        for (const slotId in konfigurasiIklan) {
+            const container = document.getElementById(slotId);
+            if (container) {
+                const config = konfigurasiIklan[slotId];
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+
+                if (config.profitableratecpm_key) {
+                    // Logika untuk Profitableratecpm
+                    script.async = true;
+                    script.dataset.cfasync = false;
+                    script.src = `//pl27226036.profitableratecpm.com/${config.profitableratecpm_key}/invoke.js`;
+                    const div = document.createElement('div');
+                    div.id = `container-${config.profitableratecpm_key}`;
+                    container.appendChild(script);
+                    container.appendChild(div);
+                } else {
+                    // Logika untuk Highperformanceformat
+                    window.atOptions = config;
+                    script.src = `//www.highperformanceformat.com/${config.key}/invoke.js`;
+                    container.appendChild(script);
+                }
+            }
+        }
+    };
+    muatIklan();
+
 
     // --- LOGIKA TOMBOL DOWNLOAD GANDA ---
     const setupDownloadButton = (buttonId, realLink, downloadName) => {
@@ -59,21 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Placeholder untuk link download Ibnu Katsir
     setupDownloadButton('download-book-btn-katsir', 'assets/books/placeholder_tafsir_ibnu_katsir.pdf', 'Kitab_Tafsir_Ibnu_Katsir.pdf');
 
-
-    // --- Fungsi untuk memuat iklan secara dinamis (tidak diubah) ---
-    const loadAds = () => {
-        const adSlots = ['ads-header-top', 'ads-footer-top', 'ads-post-start', 'ads-post-middle', 'ads-post-end'];
-        adSlots.forEach(slot => {
-            const adContainer = document.getElementById(slot);
-            if (adContainer) {
-                const adScript = document.createElement('script');
-                adScript.src = `assets/js/ads/${slot}.js`;
-                adScript.onerror = () => { adContainer.style.display = 'none'; };
-                adContainer.appendChild(adScript);
-            }
-        });
-    };
-    loadAds();
 
     const daftarNamaSurat = [ "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Taha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Asy-Syu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Yasin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Asy-Syura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jasiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Az-Zariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hasyr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddassir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Insyiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghasyiyah", "Al-Fajr", "Al-Balad", "Asy-Syams", "Al-Lail", "Ad-Duha", "Asy-Syarh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takasur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraisy", "Al-Ma'un", "Al-Kausar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
 
