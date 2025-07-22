@@ -1,68 +1,83 @@
-// Jalankan skrip ketika seluruh konten halaman telah dimuat
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Daftar Lengkap Nama Surat (untuk referensi)
-    const daftarNamaSurat = [
-        "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus",
-        "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Taha",
-        "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Asy-Syu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum",
-        "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Yasin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir",
-        "Fussilat", "Asy-Syura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jasiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf",
-        "Az-Zariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hasyr", "Al-Mumtahanah",
-        "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij",
-        "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddassir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa",
-        "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Insyiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghasyiyah", "Al-Fajr", "Al-Balad",
-        "Asy-Syams", "Al-Lail", "Ad-Duha", "Asy-Syarh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat",
-        "Al-Qari'ah", "At-Takasur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraisy", "Al-Ma'un", "Al-Kausar", "Al-Kafirun", "An-Nasr",
-        "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
-    ];
+    // --- Definisi Ikon SVG untuk Tema ---
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.64 5.64c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 5.64zm12.73 12.73c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41zM18.36 5.64l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0zM7.05 18.36l-1.41-1.41c-.39-.39-.39-1.02 0-1.41s1.02-.39 1.41 0l1.41 1.41c.39.39.39 1.02 0 1.41s-1.03.39-1.41 0z"/></svg>`;
+    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.37 5.51c.46-1.12 1.48-2 2.63-2.02.53-.01 1.08.16 1.54.49l.07.05c.67.53 1.03 1.34 1.03 2.18 0 .42-.11.83-.32 1.2l-.05.08c-.73 1.39-2.34 2.19-3.93 1.95C9.22 9.94 8.5 8.84 8.5 7.5c0-.49.15-1 .46-1.45l.01-.04zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>`;
 
-    // Fungsi untuk mode terang/gelap
+    // --- Fungsi untuk mode terang/gelap ---
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        // Terapkan tema dari localStorage saat memuat
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.body.classList.toggle('dark-mode', currentTheme === 'dark');
-    
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            let theme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+        const applyTheme = (theme) => {
+            document.body.classList.toggle('dark-mode', theme === 'dark');
+            themeToggle.innerHTML = theme === 'dark' ? sunIcon : moonIcon;
             localStorage.setItem('theme', theme);
-            // Muat ulang Giscus dengan tema baru
-            const giscusContainer = document.getElementById('giscus-container');
-            if(giscusContainer && giscusContainer.querySelector('iframe.giscus-frame')) {
-                const giscusFrame = giscusContainer.querySelector('iframe.giscus-frame');
+
+            // Muat ulang Giscus dengan tema baru jika ada
+            const giscusFrame = document.querySelector('iframe.giscus-frame');
+            if (giscusFrame) {
                 giscusFrame.contentWindow.postMessage({ giscus: { setConfig: { theme: theme } } }, 'https://giscus.app');
             }
+        };
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+            applyTheme(newTheme);
         });
+
+        // Terapkan tema dari localStorage saat memuat
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(currentTheme);
     }
 
-    // LOGIKA TOMBOL DOWNLOAD
-    const downloadBtn = document.getElementById('download-book-btn');
-    if (downloadBtn) {
-        let hasClickedOnce = false;
-        const realDownloadLink = 'assets/books/lubabun_nuqul_fi_asbabin_nuzul.pdf';
-        downloadBtn.addEventListener('click', () => {
-            if (!hasClickedOnce) {
-                window.open('tos.html', '_blank');
-                downloadBtn.textContent = 'Klik Lagi untuk Konfirmasi & Download';
-                hasClickedOnce = true;
-            } else {
-                const link = document.createElement('a');
-                link.href = realDownloadLink;
-                link.download = 'Kitab_Asbabun_Nuzul_Imam_As-Suyuthi.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                setTimeout(() => {
-                    downloadBtn.textContent = 'Download Kitab Asbabun Nuzul';
-                    hasClickedOnce = false;
-                }, 2000);
+    // --- LOGIKA TOMBOL DOWNLOAD GANDA ---
+    const setupDownloadButton = (buttonId, realLink, downloadName) => {
+        const downloadBtn = document.getElementById(buttonId);
+        if (downloadBtn) {
+            let hasClickedOnce = false;
+            downloadBtn.addEventListener('click', () => {
+                if (!hasClickedOnce) {
+                    window.open('tos.html', '_blank');
+                    downloadBtn.textContent = 'Klik Lagi untuk Konfirmasi & Download';
+                    hasClickedOnce = true;
+                } else {
+                    const link = document.createElement('a');
+                    link.href = realLink;
+                    link.download = downloadName;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    setTimeout(() => {
+                        downloadBtn.textContent = `Download ${downloadName.split('_').slice(0, -1).join(' ')}`;
+                        hasClickedOnce = false;
+                    }, 2000);
+                }
+            });
+        }
+    };
+
+    setupDownloadButton('download-book-btn-suyuthi', 'assets/books/lubabun_nuqul_fi_asbabin_nuzul.pdf', 'Kitab_Asbabun_Nuzul_Imam_As-Suyuthi.pdf');
+    // Placeholder untuk link download Ibnu Katsir
+    setupDownloadButton('download-book-btn-katsir', 'assets/books/placeholder_tafsir_ibnu_katsir.pdf', 'Kitab_Tafsir_Ibnu_Katsir.pdf');
+
+
+    // --- Fungsi untuk memuat iklan secara dinamis (tidak diubah) ---
+    const loadAds = () => {
+        const adSlots = ['ads-header-top', 'ads-footer-top', 'ads-post-start', 'ads-post-middle', 'ads-post-end'];
+        adSlots.forEach(slot => {
+            const adContainer = document.getElementById(slot);
+            if (adContainer) {
+                const adScript = document.createElement('script');
+                adScript.src = `assets/js/ads/${slot}.js`;
+                adScript.onerror = () => { adContainer.style.display = 'none'; };
+                adContainer.appendChild(adScript);
             }
         });
-    }
+    };
+    loadAds();
 
-    // Fungsi untuk halaman utama (index.html)
+    const daftarNamaSurat = [ "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus", "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr", "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Taha", "Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan", "Asy-Syu'ara'", "An-Naml", "Al-Qasas", "Al-'Ankabut", "Ar-Rum", "Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir", "Yasin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir", "Fussilat", "Asy-Syura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jasiyah", "Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf", "Az-Zariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman", "Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hasyr", "Al-Mumtahanah", "As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq", "At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij", "Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddassir", "Al-Qiyamah", "Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "'Abasa", "At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Insyiqaq", "Al-Buruj", "At-Tariq", "Al-A'la", "Al-Ghasyiyah", "Al-Fajr", "Al-Balad", "Asy-Syams", "Al-Lail", "Ad-Duha", "Asy-Syarh", "At-Tin", "Al-'Alaq", "Al-Qadr", "Al-Bayyinah", "Az-Zalzalah", "Al-'Adiyat", "Al-Qari'ah", "At-Takasur", "Al-'Asr", "Al-Humazah", "Al-Fil", "Quraisy", "Al-Ma'un", "Al-Kausar", "Al-Kafirun", "An-Nasr", "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"];
+
+    // --- Fungsi untuk halaman utama (index.html) (tidak diubah) ---
     const suratListContainer = document.getElementById('surat-list');
     if (suratListContainer) {
         daftarNamaSurat.forEach((nama, index) => {
@@ -79,43 +94,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === FUNGSI BARU UNTUK MEMUAT KOMENTAR GISCUS ===
+    // --- Fungsi untuk memuat komentar Giscus (tidak diubah) ---
     function loadGiscus(term) {
         const container = document.getElementById('giscus-container');
         if (!container) return;
-        
-        // Hapus Giscus instance lama jika ada
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
-
+        while (container.firstChild) { container.removeChild(container.firstChild); }
         const script = document.createElement('script');
         script.src = 'https://giscus.app/client.js';
-        // --- GANTI DATA DI BAWAH INI DENGAN DATA REPO ANDA ---
-        script.setAttribute('data-repo', 'kazozot/agama'); 
+        script.setAttribute('data-repo', 'kazozot/agama');
         script.setAttribute('data-repo-id', 'R_kgDOPQOEKA');
         script.setAttribute('data-category', 'General');
         script.setAttribute('data-category-id', 'DIC_kwDOPQOEKM4CtPgm');
-        // ----------------------------------------------------
         script.setAttribute('data-mapping', 'specific');
-        script.setAttribute('data-term', term); // Judul unik untuk setiap utas diskusi
+        script.setAttribute('data-term', term);
         script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1'); // Mengaktifkan reaksi/like
+        script.setAttribute('data-reactions-enabled', '1');
         script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'bottom'); // Form komentar di bawah
-        
-        // Mengatur tema Giscus sesuai tema website
+        script.setAttribute('data-input-position', 'bottom');
         const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
         script.setAttribute('data-theme', currentTheme);
-
-        script.setAttribute('data-lang', 'id'); // Bahasa Giscus
+        script.setAttribute('data-lang', 'id');
         script.setAttribute('crossorigin', 'anonymous');
         script.async = true;
-
         container.appendChild(script);
     }
-
-    // Fungsi untuk halaman detail surat (surat_detail.html)
+    
+    // --- Fungsi untuk halaman detail surat (surat_detail.html) ---
+    // --- DIMODIFIKASI SECARA SIGNIFIKAN ---
     const postContentContainer = document.getElementById('post-content');
     if (postContentContainer) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -124,13 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (dataSurat) {
             const namaSurat = daftarNamaSurat[nomorSurat - 1];
-            const daftarAyat = Object.keys(dataSurat.ayat).sort((a, b) => {
-                const firstNumA = parseInt(a, 10);
-                const firstNumB = parseInt(b, 10);
-                return firstNumA - firstNumB;
-            });
-
+            const daftarAyat = Object.keys(dataSurat.ayat).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
             const ayatListNav = document.getElementById('ayat-list');
+            const riwayatTabsContainer = document.querySelector('.riwayat-tabs');
+            
             document.getElementById('sidebar-surat-title').textContent = `Ayat di Surat ${namaSurat}`;
             
             daftarAyat.forEach(nomorAyatKey => {
@@ -147,52 +149,90 @@ document.addEventListener('DOMContentLoaded', () => {
                 const detailAyat = dataSurat.ayat[nomorAyatKey];
                 if (!detailAyat) return;
 
-                const judulHalaman = `Surat ${namaSurat} : Ayat ${nomorAyatKey}`;
-                document.getElementById('judul-surat-ayat').textContent = judulHalaman;
-                document.title = `Asbabun Nuzul ${judulHalaman}`;
+                // Tampilkan Teks dan Arti Ayat
+                document.getElementById('judul-surat-ayat').textContent = `Surat ${namaSurat} : Ayat ${nomorAyatKey}`;
+                document.title = `Asbabun Nuzul ${namaSurat} : Ayat ${nomorAyatKey}`;
+                document.querySelector('meta[name="description"]').setAttribute('content', `Sebab turunnya Surat ${namaSurat} ayat ${nomorAyatKey}.`);
+                document.getElementById('teks-ayat').innerHTML = detailAyat.teks_ayat.map(item => `<p class="ayat-arabic-item">${item.teks} (${item.nomor_ayat})</p>`).join('');
+                document.getElementById('arti-ayat').innerHTML = detailAyat.arti_ayat.map(item => `<p class="ayat-translation-item">(${item.nomor_ayat}) ${item.arti}</p>`).join('');
                 
-                const teksAyatHtml = detailAyat.teks_ayat.map(item => `<p class="ayat-arabic-item">${item.teks} (${item.nomor_ayat})</p>`).join('');
-                document.getElementById('teks-ayat').innerHTML = teksAyatHtml;
-
-                const artiAyatHtml = detailAyat.arti_ayat.map(item => `<p class="ayat-translation-item">(${item.nomor_ayat}) ${item.arti}</p>`).join('');
-                document.getElementById('arti-ayat').innerHTML = artiAyatHtml;
-
-                const sebabNuzulHtml = detailAyat.sebab_nuzul.map((riwayat, index) => {
-                    const header = detailAyat.sebab_nuzul.length > 1 ? `<h4>Riwayat ${index + 1}</h4>` : '';
-                    return `${header}<p>${riwayat.replace(/\n/g, '<br>')}</p>`;
-                }).join('');
-                document.getElementById('sebab-nuzul').innerHTML = sebabNuzulHtml;
-                
-                document.querySelector('meta[name="description"]').setAttribute('content', `Sebab turunnya Surat ${namaSurat} ayat ${nomorAyatKey}: ${detailAyat.sebab_nuzul[0].substring(0, 150)}...`);
-
-                document.querySelectorAll('#ayat-list a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.nomorAyatKey === nomorAyatKey) {
-                        link.classList.add('active');
+                // --- LOGIKA TAB RIWAYAT BARU ---
+                const tampilkanRiwayat = (namaPerawi) => {
+                    const sebabNuzulContainer = document.getElementById('sebab-nuzul');
+                    const riwayatData = detailAyat.sebab_nuzul[namaPerawi];
+                    
+                    if (riwayatData && riwayatData.length > 0) {
+                        sebabNuzulContainer.innerHTML = riwayatData.map((riwayat, index) => {
+                            const header = riwayatData.length > 1 ? `<h4>Riwayat ${index + 1}</h4>` : '';
+                            return `${header}<p>${riwayat.replace(/\n/g, '<br>')}</p>`;
+                        }).join('');
+                    } else {
+                        sebabNuzulContainer.innerHTML = '<p>Riwayat tidak tersedia untuk perawi ini.</p>';
                     }
+                    
+                    // Update tab aktif
+                    document.querySelectorAll('.tab-link').forEach(tab => {
+                        tab.classList.toggle('active', tab.dataset.riwayat === namaPerawi);
+                    });
+                };
+                
+                // Atur tab mana yang terlihat
+                document.querySelectorAll('.tab-link').forEach(tab => {
+                    const perawi = tab.dataset.riwayat;
+                    const riwayatAda = detailAyat.sebab_nuzul && detailAyat.sebab_nuzul[perawi];
+                    tab.style.display = riwayatAda ? '' : 'none';
+                });
+
+                // Tampilkan riwayat default (Imam As-Suyuthi)
+                tampilkanRiwayat('Imam Jalaluddin As-Suyuthi'); 
+
+                // Update link navigasi samping yang aktif
+                document.querySelectorAll('#ayat-list a').forEach(link => {
+                    link.classList.toggle('active', link.dataset.nomorAyatKey === nomorAyatKey);
                 });
                 
-                // === PANGGIL FUNGSI GISCUS SETIAP KALI AYAT BERGANTI ===
-                const discussionTerm = `Komentar: ${judulHalaman}`; // Ini akan menjadi judul unik untuk setiap diskusi
-                loadGiscus(discussionTerm);
+                // Panggil Giscus
+                loadGiscus(`Komentar: Surat ${namaSurat} Ayat ${nomorAyatKey}`);
             };
-            
+
+            // Event listener untuk tab riwayat
+            riwayatTabsContainer.addEventListener('click', e => {
+                if (e.target.classList.contains('tab-link')) {
+                    const nomorAyatKey = window.location.hash.substring(1) || daftarAyat[0];
+                    const perawi = e.target.dataset.riwayat;
+                    
+                    const detailAyat = dataSurat.ayat[nomorAyatKey];
+                    const sebabNuzulContainer = document.getElementById('sebab-nuzul');
+                    const riwayatData = detailAyat.sebab_nuzul[perawi];
+                    
+                    if (riwayatData && riwayatData.length > 0) {
+                        sebabNuzulContainer.innerHTML = riwayatData.map((riwayat, index) => {
+                            const header = riwayatData.length > 1 ? `<h4>Riwayat ${index + 1}</h4>` : '';
+                            return `${header}<p>${riwayat.replace(/\n/g, '<br>')}</p>`;
+                        }).join('');
+                    } else {
+                        sebabNuzulContainer.innerHTML = '<p>Riwayat tidak tersedia untuk perawi ini.</p>';
+                    }
+
+                    document.querySelectorAll('.tab-link').forEach(tab => tab.classList.remove('active'));
+                    e.target.classList.add('active');
+                }
+            });
+
+            // Navigasi awal dan state handling
             const handleStateChange = () => {
                 let ayatKeyFromHash = window.location.hash.substring(1);
-
                 if (!daftarAyat.includes(ayatKeyFromHash)) {
                     ayatKeyFromHash = daftarAyat[0];
                     history.replaceState(null, '', `#${ayatKeyFromHash}`);
                 }
-                
                 tampilkanKontenAyat(ayatKeyFromHash);
             };
 
-            ayatListNav.addEventListener('click', (e) => {
+            ayatListNav.addEventListener('click', e => {
                 if (e.target.tagName === 'A') {
                     e.preventDefault();
                     const nomorAyatDipilih = e.target.dataset.nomorAyatKey;
-                    
                     if (window.location.hash !== `#${nomorAyatDipilih}`) {
                         history.pushState({ ayat: nomorAyatDipilih }, '', `#${nomorAyatDipilih}`);
                         tampilkanKontenAyat(nomorAyatDipilih);
@@ -200,10 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            window.addEventListener('popstate', () => {
-                handleStateChange();
-            });
-
+            window.addEventListener('popstate', handleStateChange);
             handleStateChange();
 
         } else {
