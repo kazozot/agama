@@ -21,8 +21,8 @@ const dataAsbabunNuzul = {
         "ayat": {
             "6-7": { 
                 "teks_ayat": [
-                    { "nomor_ayat": "6", "teks": "إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ" },
-                    { "nomor_ayat": "7", "teks": "خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ" }
+                    { "nomor_ayat": "6", "teks": "اِنَّ الَّذِيْنَ كَفَرُوْا سَوَاۤءٌ عَلَيْهِمْ ءَاَنْذَرْتَهُمْ اَمْ لَمْ تُنْذِرْهُمْ لَا يُؤْمِنُوْنَ" },
+                    { "nomor_ayat": "7", "teks": "خَتَمَ اللّٰهُ عَلٰى قُلُوْبِهِمْ وَعَلٰى سَمْعِهِمْ ۗ وَعَلٰٓى اَبْصَارِهِمْ غِشَاوَةٌ وَّلَهُمْ عَذَابٌ عَظِيْمٌ" }
                 ],
                 "arti_ayat": [
                     { "nomor_ayat": "6", "arti": "Sesungguhnya orang-orang kafir, sama saja bagi mereka, engkau (Muhammad) beri peringatan atau tidak engkau beri peringatan, mereka tidak akan beriman." },
@@ -30,10 +30,25 @@ const dataAsbabunNuzul = {
                 ],
                 "sebab_nuzul": {
                     "Imam Jalaluddin As-Suyuthi": [
-                        "Diriwayatkan oleh Ibnu Abbas, ia berkata: 'Dua ayat ini turun berkenaan dengan para pemuka Yahudi, seperti Huyay bin Akhtab dan Ka'ab bin al-Asyraf, serta tokoh-tokoh lainnya. Ketika mereka ditanya tentang ciri-ciri Nabi Muhammad yang ada dalam kitab mereka, mereka mengingkarinya karena dengki dan hasad.'"
+                        "Ibnu Jarir meriwayatkan dari Ibnu Ishaq, dari Muhammad bin Abi Muhammad, dari Ikrimah atau dari Sa’id bin Jubair, dari Ibnu Abbas bahwa kedua ayat tersebut turun berkenaan dengan orang-orang Yahudi di Madinah.",
+                        "Ibnu Jarir juga meriwayatkan dari ar-Rabi’ bin Anas, dia berkata, “Dua ayat turun berkenaan dengan perang Ahzab yaitu, ‘Sesungguhnya orang-orang kafir, sama saja bagi mereka,...’ sampai, ‘..., dan mereka akan mendapat siksaan yang berat.’ ” (Al-Baqarah: 6-7)"
                     ],
                     "Ibnu Katsir": [
                         "Ibnu Katsir menyebutkan bahwa ayat ini turun untuk menjelaskan tentang orang-orang yang telah ditetapkan kesesatannya, di mana peringatan tidak akan bermanfaat bagi mereka. Ini mencakup para pemimpin Quraisy seperti Abu Jahal dan lainnya yang mati dalam kekafiran pada Perang Badar."
+                    ]
+                }
+            },
+            "14": { 
+                "teks_ayat": [
+                    { "nomor_ayat": "14", "teks": "اِنَّ الَّذِيْنَ كَفَرُوْا سَوَاۤءٌ عَلَيْهِمْ ءَاَنْذَرْتَهُمْ اَمْ لَمْ تُنْذِرْهُمْ لَا يُؤْمِنُوْنَ" }
+                ],
+                "arti_ayat": [
+                    { "nomor_ayat": "14", "arti": "Dan apabila mereka berjumpa dengan orang yang beriman, mereka berkata, “Kami telah beriman.” Tetapi apabila mereka kembali kepada setan-setan (para pemimpin) mereka, mereka berkata, “Sesungguhnya kami bersama kamu, kami hanya berolok-olok.”" }
+                ],
+                "sebab_nuzul": {
+                    "Imam Jalaluddin As-Suyuthi": [
+                        "Al-Wahidi dan ats-Tsa’labi meriwayatkan dari Muhammad bin Marwan as-Suddi as-Shagir, dari al-Kalabi, dari Abu Shalih, dari Ibnu Abbas, dia berkata, “Ayat tersebut turun berkenaan dengan Abdullah bin Ubay dan kawan-kawannya. Pada suatu hari mereka bertemu dengan sekelompok sahabat Rasulullah Saw. Maka Abdullah bin Ubay berkata, ‘Lihatlah bagaimana aku menjauhkan orang-orang bodoh ini dari kalian.’ Kemudian dia pergi menghampiri Abu Bakar dan memegang tangannya, lalu berkata, ‘Selamat datang ash-Shiddiiq, tuan Bani Tamim, syaikhul Islam, orang kedua setelah Rasulullah saat berada dalam gua, juga orang yang mencurahkan diri dan hartanya demi Rasulullah.’ Kemudian dia memegang tangan Umar dan berkata, ‘Selamat datang tuan Bani ‘Addi bin Ka’ab, al-Faruuq yang kokoh di dalam agama Allah, juga orang yang mencurahkan diri dan hartanya demi Rasulullah.’ Kemudian dia memegang tangan Ali dan berkata, ‘Selamat datang sepupu Rasulullah dan menantu beliau, tuan Bani Hasyim setelah Rasulullah.’ Kemudian mereka pergi secara terpisah. Lalu Abdullah bin Ubay berkata kepada kawan-kawannya, ‘Bagaimana pendapat kalian tentang yang telah aku lakukan tadi? Jika kalian melihat mereka, maka lakukanlah seperti apa yang aku lakukan.’ Maka mereka memujinya. Kemudian orang-orang muslim menemui Nabi dan menceritakan hal tersebut, maka turunlah ayat ini.”",
+                        "Isnad riwayat ini sangat lemah. Karena as-Suddi ash-Shaghir dan al-Kalabi adalah pendusta. Dan Abu Shalih sendiri adalah orang yang lemah."
                     ]
                 }
             },
