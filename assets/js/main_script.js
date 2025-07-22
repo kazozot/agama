@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- PENGATURAN IKLAN ---
     // Ubah nilai di bawah ini ke `false` untuk mematikan SEMUA iklan di situs.
     // Ubah ke `true` untuk menyalakan kembali.
-    const ENABLE_ADS = true;
+    const ENABLE_ADS = false;
 
     // Fungsi untuk mengelola visibilitas slot iklan
     const manageAdVisibility = () => {
